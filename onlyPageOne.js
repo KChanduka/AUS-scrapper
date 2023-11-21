@@ -31,7 +31,7 @@ async function AUS(){
         let links = await page1.evaluate(()=>Array.from(document.querySelectorAll('.boxEQH > div > div:nth-child(2) > div > div > div > a'),(e)=>(e.href)));
         console.log('num of links in page 1 :',links.length);
         // console.log('all links in page 1 :',links);
-
+        const pageOneLinks = links;
 
 
         let pageCount = 2;
@@ -56,7 +56,7 @@ async function AUS(){
         // intializing and array to store scraped data
         let scrapedData = [];
         let finTenders = 1;// counter for scraped tenders
-        for(const elm of links){
+        for(const elm of pageOneLinks){
             const page3 = await browser.newPage();
             await page3.goto(elm);
 
@@ -196,7 +196,7 @@ async function AUS(){
             let description = "";
             try{
                 description = await page3.evaluate(()=>{
-                    let descriptionElement = document.querySelector('.row > div:nth-child(2) > div > div:nth-child(-5) > div').innerText;
+                    let descriptionElement = document.querySelector('.row > div:nth-child(2) > div > div:nth-child(13) > div').innerText;
                     descriptionElement ? descriptionElement = descriptionElement.replace(/\n+/g,"\n").replace(/\n+/g,""): descriptionElement="";
                     descriptionElement = (descriptionElement === "No" || descriptionElement === "Yes") ? "" : descriptionElement;
                     return descriptionElement;
